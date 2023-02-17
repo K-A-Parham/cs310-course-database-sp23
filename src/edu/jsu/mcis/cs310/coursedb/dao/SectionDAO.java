@@ -21,7 +21,7 @@ public class SectionDAO {
         JsonArray JA = new JsonArray();
         
         String query = "SELECT * FROM jsu_sp23_v1.section WHERE termid=? AND subjectid=? AND num=?";
-        query = ".... WHERE termid=" + termid;
+        //query = ".... WHERE termid=" + termid;
         
         PreparedStatement ps = null;
         ResultSet rs = null;

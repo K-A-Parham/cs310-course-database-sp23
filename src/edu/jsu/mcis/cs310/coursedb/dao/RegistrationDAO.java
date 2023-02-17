@@ -9,10 +9,14 @@ import java.sql.Statement;
 public class RegistrationDAO {
     
     // INSERT YOUR CODE HERE
+    public static final String QUERY_CREATE = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
+    public static final String QUERY_DROP = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?";
+    public static final String QUERY_WITHDRAW = "DELETE FROM registration WHERE studentid = ? AND termid = ?";
+    public static final String QUERY_LIST = "SELECT * FROM registration WHERE studentid = ? AND termid = ?";
     
-    private final DAOFactory daoFactory;
+    public final DAOFactory daoFactory;
     
-    RegistrationDAO(DAOFactory daoFactory) {
+    public RegistrationDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
     
@@ -30,7 +34,16 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                ps = conn.prepareStatement(QUERY_CREATE);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
+
+                int count = ps.executeUpdate();
+
+                if (count > 0) {
+                    result = true;
+                }
             }
             
         }
@@ -61,7 +74,16 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                ps = conn.prepareStatement(QUERY_DROP);
+            ps.setInt(1, studentid);
+            ps.setInt(2, termid);
+            ps.setInt(3, crn);
+
+            int count = ps.executeUpdate();
+
+            if (count > 0) {
+                result = true;
+            }
             }
             
         }
@@ -91,7 +113,15 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
-                
+                  ps = conn.prepareStatement(QUERY_WITHDRAW);
+            ps.setInt(1, studentid);
+            ps.setInt(2, termid);
+
+            int count = ps.executeUpdate();
+
+            if (count > 0) {
+                result = true;
+            }
             }
             
         }
@@ -123,7 +153,13 @@ public class RegistrationDAO {
             if (conn.isValid(0)) {
                 
                 // INSERT YOUR CODE HERE
+                ps = conn.prepareStatement(QUERY_LIST);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+
+                rs = ps.executeQuery();
                 
+                result = DAOUtility.getResultSetAsJson(rs);
             }
             
         }
