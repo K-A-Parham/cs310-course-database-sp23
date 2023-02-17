@@ -18,7 +18,7 @@ public class SectionDAO {
     
     public String find(int termid, String subjectid, String num) {
         
-        JsonArray JA = new JsonArray();
+        JsonArray results = new JsonArray();
         
         String query = "SELECT * FROM jsu_sp23_v1.section WHERE termid=? AND subjectid=? AND num=?";
         //query = ".... WHERE termid=" + termid;
@@ -45,17 +45,17 @@ public class SectionDAO {
                 
                 while (rs.next()) {
                     
-                    JsonObject JO = new JsonObject();
+                    JsonObject section = new JsonObject();
                     
                     for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
                         
                         String key = rsmd.getColumnLabel(i);
                         
-                        JO.put(key, rs.getString(key));
+                        section.put(key, rs.getString(key));
                         
                     }
                     
-                    JA.add(JO);
+                    results.add(section);
                     
                 }
                 
@@ -72,7 +72,7 @@ public class SectionDAO {
             
         }
         
-        return JA.toString();
+        return Jsoner.serialize(results);
         
     }
     
