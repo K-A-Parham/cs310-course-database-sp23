@@ -61,7 +61,7 @@ public class RegistrationDAO {
         
     }
 
-    public boolean delete(int studentid, int termid, int crn) {
+    public boolean delete(int studentid, int termid, int crn) {//Drop//
         
         boolean result = false;
         
@@ -100,7 +100,7 @@ public class RegistrationDAO {
         
     }
     
-    public boolean delete(int studentid, int termid) {
+    public boolean delete(int studentid, int termid) {//Withdraw//
         
         boolean result = false;
         
