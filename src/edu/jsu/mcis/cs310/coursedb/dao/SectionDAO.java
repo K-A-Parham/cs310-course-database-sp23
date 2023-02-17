@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
+import com.github.cliftonlabs.json_simple.*;
 
 public class SectionDAO {
     
@@ -17,7 +18,10 @@ public class SectionDAO {
     
     public String find(int termid, String subjectid, String num) {
         
-        String result = null;
+        JsonArray JA = new JsonArray();
+        
+        String query = "SELECT * FROM jsu_sp23_v1.section WHERE termid=? AND subjectid=? AND num=?";
+        query = ".... WHERE termid=" + termid;
         
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -29,7 +33,31 @@ public class SectionDAO {
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                ps = conn.prepareStatement(query);
+                ps.setInt(1, termid);
+                ps.setString(2, subjectid);
+                ps.setString(3, num);
+                
+                ps.execute();
+                
+                rs = ps.getResultSet();
+                rsmd = rs.getMetaData();
+                
+                while (rs.next()) {
+                    
+                    JsonObject JO = new JsonObject();
+                    
+                    for (int i = 1; i <= rsmd.getColumnCount(); ++i) {
+                        
+                        String key = rsmd.getColumnLabel(i);
+                        
+                        JO.put(key, rs.getString(key));
+                        
+                    }
+                    
+                    JA.add(JO);
+                    
+                }
                 
             }
             
@@ -44,7 +72,7 @@ public class SectionDAO {
             
         }
         
-        return result;
+        return JA.toString();
         
     }
     
